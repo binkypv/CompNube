@@ -8,3 +8,9 @@ class Adds(db.Model):
     priority = db.IntegerProperty()
     date = db.DateTimeProperty(auto_now_add=True)
     
+class Comment(db.Model):
+    
+    author = db.StringProperty()
+    event_id = db.IntegerProperty()
+    text = db.StringProperty()
+    date = db.DateTimeProperty(auto_now_add=True)

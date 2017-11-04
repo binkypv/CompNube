@@ -5,7 +5,7 @@ import jinja2
 
 from google.appengine.ext import db
 
-from models import Adds 
+from models import Comment, Adds
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
@@ -69,4 +69,18 @@ class DeleteAdd(BaseHandler):
         db.delete(add)
         return webapp2.redirect('/')
 
+class ViewAdd(BaseHandler):
 
+    def get(self, add_id):
+        comments = Comment.gql("WHERE event_id = :event_id", event_id=int(add_id))
+        iden = int(add_id)
+        add = db.get(db.Key.from_path('Adds', iden))
+        self.render_template('view.html', {'add': add,'comments':comments})
+
+    def post(self, add_id):
+        comment = Comment(text=self.request.get('inputCommentText'),
+                          event_id=int(add_id),
+                          author=self.request.get('inputCommentAuthor'),
+                          date=datetime.now())
+        comment.put()
+        return webapp2.redirect('/')

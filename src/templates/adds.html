@@ -35,6 +35,7 @@
                 <td>{{ add.date.strftime('%Y-%m-%d') }}</td>
                 <td>{{ add.priority }}</td>
                 <td><a class="btn btn-warning" href="/edit/{{ add.key().id() }}">Editar </a></td>
+                <td><a class="btn btn-warning" href="/view/{{ add.key().id() }}">Ver </a></td>
             </tr>
             {% endfor %}
             </tbody>

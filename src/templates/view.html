@@ -6,7 +6,7 @@
 <div class="row">
 	<div class="col-lg-12 text-center">
 		<h1>
-			Ver anuncio <span class="glyphicon glyphicon-list-alt"
+			Ver evento <span class="glyphicon glyphicon-list-alt"
 				aria-hidden="true"></span>
 		</h1>
 	</div>
@@ -30,9 +30,7 @@
 				<label for="inputText" class="col-sm-3 control-label">Descripci&oacute;n</label>
 
 				<div class="col-sm-6">
-					<input readonly="readonly" type="text" class="form-control"
-						name="inputText" id="inputText" placeholder="text"
-						value="{{ add.text }}">
+					<textarea readonly="readonly" type="text" class="form-control" name="inputText" id="inputText" placeholder="Descripci&oacute;n del evento" rows="4" cols="50">{{ add.text }}</textarea>
 				</div>
 			</div>
 			<div class="form-group">
@@ -56,20 +54,20 @@
 <div class="row">
 	<div class="col-sm-5 col-sm-offset-3">
 		<div class="panel panel-default">
-			<div class="panel-heading">Leave your comment!</div>
+			<div class="panel-heading">Deja un comentario!</div>
 			<div class="panel-body">
 				<form role="form" action="" method="post">
-										
+
 					<div class="form-group">
-						<label for="inputCommentAuthor">Author</label> <input type="text"
+						<label for="inputCommentAuthor">Autor</label> <input type="text"
 							class="form-control" id="inputCommentAuthor"
-							name="inputCommentAuthor" placeholder="Your name">
+							name="inputCommentAuthor" placeholder="Tu nombre">
 					</div>
 
 					<div class="form-group">
-						<label for="comment">Comment</label>
+						<label for="comment">Comentario</label>
 						<textarea class="form-control" id="inputCommentText" name="inputCommentText" rows="3"
-							placeholder="Enter comment here..."></textarea>
+							placeholder="Introduce tu comentario aqui..."></textarea>
 					</div>
 
 					<div class="form-group text-right">
@@ -88,7 +86,7 @@
 		<div class="panel panel-default">
 			<div class="panel-heading"><strong>{{ comment.author }} - {{ comment.date.strftime('%d/%m/%Y') }}</strong></div>
 			<div class="panel-body">
-			
+
 					<div class="form-group">
 						<label for="comment">Comment</label>
 						<textarea readonly="readonly" class="form-control" id="inputText" rows="3">{{ comment.text }}</textarea>

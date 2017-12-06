@@ -1,12 +1,15 @@
 from google.appengine.ext import db
 
 
-class Adds(db.Model):
+class Events(db.Model):
 
+    title = db.StringProperty()
     author = db.EmailProperty()
-    text = db.StringProperty()
-    priority = db.IntegerProperty()
-    date = db.DateTimeProperty(auto_now_add=True)
+    description = db.TextProperty()
+    type = db.StringProperty()
+    location = db.GeoPtProperty()
+    #image = images.Image()
+    date = db.DateTimeProperty(auto_now_add = True)
     
 class Comment(db.Model):
     

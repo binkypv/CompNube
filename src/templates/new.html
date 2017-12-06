@@ -37,7 +37,7 @@
             <div class="form-group">
                 <label for="inputType" class="col-sm-3 control-label">Tipo</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="inputType" id="inputType"placeholder="Tipo de evento">
+                    <input type="text" class="form-control" name="inputType" id="inputType" placeholder="Tipo de evento">
                 </div>
             </div>
 
@@ -45,6 +45,13 @@
                 <label for="inputDate" class="col-sm-3 control-label">Fecha</label>
                 <div class="col-sm-6">
                     <input type="datetime-local" class="form-control" name="inputDate" id="inputDate" placeholder="fecha" min="{{ actualDate }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputLocation" class="col-sm-3 control-label">Localización</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="inputLocation" id="inputLocation" placeholder="Localización">
                 </div>
             </div>
 
@@ -56,6 +63,13 @@
     </div>
     <div class="col-md-2"></div>
 </div>
+
+<script type="text/javascript">
+    window.onload = function() {
+        var input = document.getElementById('inputLocation');
+        var searchBox = new google.maps.places.SearchBox(input);
+    }
+</script>
 
 {% endblock content %}
 

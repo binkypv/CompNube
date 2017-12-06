@@ -59,8 +59,11 @@
     <div class="col-md-2"></div>
 </div>
 
-
-<script src="../static/js/jquery.js"></script>
-<script src="../static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    window.onload = function() {
+        var input = document.getElementById('inputLocation');
+        var searchBox = new google.maps.places.SearchBox(input);
+    }
+</script>
 
 {% endblock content %}

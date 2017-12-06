@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 import webapp2
 import jinja2
+#import googlemaps
 
 from google.appengine.ext import db
 
@@ -11,6 +12,7 @@ TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
     jinja2.Environment(loader=jinja2.FileSystemLoader(TEMPLATE_DIR))
 
+#gmaps = googlemaps.Client(key='AIzaSyBAB4C4WE747DGDjeaPOBxTiGdX9xAPi2A')
 
 class BaseHandler(webapp2.RequestHandler):
 
@@ -37,7 +39,7 @@ class NewEvent(BaseHandler):
                        title = self.request.get('inputTitle'),
                        description = self.request.get('inputDescription'),
                        type = self.request.get('inputType'),
-                       #location = self.request.get('inputLocation'),
+                       #location = gmaps.geocode(self.request.get('inputLocation')),
                        date = datetime.strptime(self.request.get('inputDate'), '%Y-%m-%dT%H:%M')
                        )
         event.put()
@@ -57,7 +59,7 @@ class EditEvent(BaseHandler):
         event.title = self.request.get('inputTitle')
         event.description = self.request.get('inputDescription')
         event.type = self.request.get('inputType')
-        #event.location = self.request.get('inputLocation')
+        event.location = self.request.get('inputLocation')
         event.date = datetime.strptime(self.request.get('inputDate'), '%Y-%m-%dT%H:%M')
         event.put()
         return webapp2.redirect('/')

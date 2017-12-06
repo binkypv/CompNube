@@ -5,7 +5,7 @@ import jinja2
 
 from google.appengine.ext import db
 
-from models import Comment, Adds
+from models import Events, Comment
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_environment = \
@@ -24,63 +24,74 @@ class BaseHandler(webapp2.RequestHandler):
         self.response.out.write(template.render(template_values))
 
 
-class ShowAdds(BaseHandler):
+class ShowEvents(BaseHandler):
     
     def get(self):
-        adds = Adds.all()
-        self.render_template('adds.html', {'adds': adds})
+        events = Events.all()
+        self.render_template('events.html', {'events': events})
         
-class NewAdd(BaseHandler):
+class NewEvent(BaseHandler):
 
     def post(self):
-        add = Adds(author=self.request.get('inputAuthor'),
-                  text=self.request.get('inputText'),
-                  priority=int(self.request.get('inputPriority')))
-        add.put()
+        event = Events(author = self.request.get('inputAuthor'),
+                       title = self.request.get('inputTitle'),
+                       description = self.request.get('inputDescription'),
+                       type = self.request.get('inputType'),
+                       #location = self.request.get('inputLocation'),
+                       date = datetime.strptime(self.request.get('inputDate'), '%Y-%m-%dT%H:%M')
+                       )
+        event.put()
         return webapp2.redirect('/')
 
     def get(self):
-        self.render_template('new.html', {})
+        actualDate = datetime.now().strftime('%Y-%m-%dT%H:%M')
+        self.render_template('new.html', {'actualDate': actualDate})
 
 
-class EditAdd(BaseHandler):
+class EditEvent(BaseHandler):
 
-    def post(self, add_id):
-        iden = int(add_id)
-        add = db.get(db.Key.from_path('Adds', iden))
-        add.author = self.request.get('inputAuthor')
-        add.text = self.request.get('inputText')
-        add.priority = int(self.request.get('inputPriority'))
-        add.date = datetime.now()
-        add.put()
+    def post(self, event_id):
+        iden = int(event_id)
+        event = db.get(db.Key.from_path('Events', iden))
+        event.author = self.request.get('inputAuthor')
+        event.title = self.request.get('inputTitle')
+        event.description = self.request.get('inputDescription')
+        event.type = self.request.get('inputType')
+        #event.location = self.request.get('inputLocation')
+        event.date = datetime.strptime(self.request.get('inputDate'), '%Y-%m-%dT%H:%M')
+        event.put()
         return webapp2.redirect('/')
 
-    def get(self, add_id):
-        iden = int(add_id)
-        add = db.get(db.Key.from_path('Adds', iden))
-        self.render_template('edit.html', {'add': add})
+    def get(self, event_id):
+        iden = int(event_id)
+        event = db.get(db.Key.from_path('Events', iden))
+        date = event.date.strftime('%Y-%m-%dT%H:%M')
+        actualDate = datetime.now().strftime('%Y-%m-%dT%H:%M')
+        self.render_template('edit.html', {'event': event, 'date': date , 'actualDate': actualDate})
 
 
-class DeleteAdd(BaseHandler):
+class DeleteEvent(BaseHandler):
 
-    def get(self, add_id):
-        iden = int(add_id)
-        add = db.get(db.Key.from_path('Adds', iden))
-        db.delete(add)
+    def get(self, event_id):
+        iden = int(event_id)
+        event = db.get(db.Key.from_path('Events', iden))
+        db.delete(event)
         return webapp2.redirect('/')
 
-class ViewAdd(BaseHandler):
+class ViewEvent(BaseHandler):
 
-    def get(self, add_id):
-        comments = Comment.gql("WHERE event_id = :event_id", event_id=int(add_id))
-        iden = int(add_id)
-        add = db.get(db.Key.from_path('Adds', iden))
-        self.render_template('view.html', {'add': add,'comments':comments})
+    def get(self, event_id):
+        comments = Comment.gql("WHERE event_id = :event_id", event_id=int(event_id))
+        iden = int(event_id)
+        event = db.get(db.Key.from_path('Events', iden))
+        date = event.date.strftime('%Y-%m-%dT%H:%M')
+        self.render_template('view.html', {'event': event, 'date': date ,'comments':comments})
 
-    def post(self, add_id):
+    def post(self, event_id):
         comment = Comment(text=self.request.get('inputCommentText'),
-                          event_id=int(add_id),
+                          event_id=int(event_id),
                           author=self.request.get('inputCommentAuthor'),
                           date=datetime.now())
         comment.put()
         return webapp2.redirect('/')
+

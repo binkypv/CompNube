@@ -39,7 +39,7 @@ class NewEvent(BaseHandler):
                        title = self.request.get('inputTitle'),
                        description = self.request.get('inputDescription'),
                        type = self.request.get('inputType'),
-                       #location = gmaps.geocode(self.request.get('inputLocation')),
+                       location = self.request.get('inputLocation'),
                        date = datetime.strptime(self.request.get('inputDate'), '%Y-%m-%dT%H:%M')
                        )
         event.put()

@@ -4,7 +4,6 @@
 <div class="row">
     <div class="col-lg-12 text-center">
         <h1>Eventos del Sur <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></h1>
-
     </div>
 </div>
 <br/>
@@ -16,6 +15,10 @@
 <br/>
 
 {% if events.count() > 0 %}
+<div class="row">
+	<div id="map"></div>
+</div>
+
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
@@ -32,8 +35,10 @@
                 <td>{{ event.title }}</td>
                 <td>{{ event.author }}</td>
                 <td>{{ event.date }}</td>
-                <td><a class="btn btn-warning" href="/edit/{{ event.key().id() }}">Editar </a></td>
-                <td><a class="btn btn-warning" href="/view/{{ event.key().id() }}">Ver </a></td>
+                <td>
+                    <a class="btn btn-warning" href="/edit/{{ event.key().id() }}">Editar</a>
+                    <a class="btn btn-warning" href="/view/{{ event.key().id() }}">Ver</a>
+                </td>
             </tr>
             {% endfor %}
             </tbody>
@@ -61,7 +66,42 @@
             window.location = window.location + '#loaded';
             window.location.reload();
         }
+        initMap();
     }
+
+    function initMap() {
+		var geocoder = new google.maps.Geocoder();
+        var map;
+        var marker;
+        var location;
+        
+        // Create map and center in Spain
+        geocoder.geocode( { 'address': 'España' }, function(results, status) {
+            if (status == 'OK') {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 5,
+                    center: results[0].geometry.location
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+
+        // Add a marker for each event´s location
+        {% for event in events %}
+            location = '{{ event.location }}';
+            geocoder.geocode( { 'address': location }, function(results, status) {
+                if (status == 'OK') {
+                    marker = new google.maps.Marker({
+                        position: results[0].geometry.location,
+                        map: map
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        {% endfor %}
+	}
 </script>
 
 {% endblock content %}

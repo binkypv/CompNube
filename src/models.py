@@ -7,7 +7,7 @@ class Events(db.Model):
     author = db.EmailProperty()
     description = db.TextProperty()
     type = db.StringProperty()
-    location = db.GeoPtProperty()
+    location = db.StringProperty()
     #image = images.Image()
     date = db.DateTimeProperty(auto_now_add = True)
     

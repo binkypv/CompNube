@@ -6,3 +6,9 @@
 .formBox{
 	color: RED;
 }
+
+#map {
+    margin: 30px;
+    height: 300px;
+    width: 100%;
+}

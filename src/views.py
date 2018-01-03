@@ -57,16 +57,17 @@ class NewEvent(BaseHandler):
 class EditEvent(BaseHandler):
 
     def post(self, event_id):
-        iden = int(event_id)
-        event = db.get(db.Key.from_path('Events', iden))
-        event.author = self.request.get('inputAuthor')
-        event.title = self.request.get('inputTitle')
-        event.description = self.request.get('inputDescription')
-        event.type = self.request.get('inputType')
-        event.location = self.request.get('inputLocation')
-        event.date = datetime.strptime(self.request.get('inputDate'), '%Y-%m-%dT%H:%M')
-        event.put()
-        return webapp2.redirect('/')
+		iden = int(event_id)
+		event = db.get(db.Key.from_path('Events', iden))
+		event.author = self.request.get('inputAuthor')
+		event.title = self.request.get('inputTitle')
+		event.description = self.request.get('inputDescription')
+		event.type = self.request.get('inputType')
+		event.location = self.request.get('inputLocation')
+		event.image = self.request.get('inputImage')
+		event.date = datetime.strptime(self.request.get('inputDate'), '%Y-%m-%dT%H:%M')
+		event.put()
+		return webapp2.redirect('/')
 
     def get(self, event_id):
         iden = int(event_id)
@@ -92,7 +93,8 @@ class ViewEvent(BaseHandler):
 		event = db.get(db.Key.from_path('Events', iden))
 		date = event.date.strftime('%Y-%m-%dT%H:%M')
 		images = []
-		piclist = flickr_api.Photo.search(text=event.image,per_page=5)
+		tag = event.image.encode('ascii','ignore').decode('ascii')
+		piclist = flickr_api.Photo.search(text=tag,per_page=5)
 		for pic in piclist:
 			images.append("https://farm"+str(pic.farm)+".staticflickr.com/"+str(pic.server)+"/"+str(pic.id)+"_"+pic.secret+".jpg")
 		self.render_template('view.html', {'event': event, 'date': date ,'comments':comments, 'images': images})

@@ -18,44 +18,51 @@
             <div class="form-group">
                 <label for="inputAuthor" class="col-sm-3 control-label">E-mail</label>
                 <div class="col-sm-6">
-                    <input type="email" class="form-control" name="inputAuthor" id="inputAuthor" placeholder="Correo electrónico" value="{{ event.author }}">
+                    <input type="email" class="form-control" name="inputAuthor" id="inputAuthor" placeholder="Correo electrónico" value="{{ event.author }}" required/>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputTitle" class="col-sm-3 control-label">T&iacute;tulo del evento</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="T&iacute;tulo del evento" value="{{ event.title }}">
+                    <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="T&iacute;tulo del evento" value="{{ event.title }}" required/>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputDescription" class="col-sm-3 control-label">Descripci&oacute;n del evento</label>
                 <div class="col-sm-6">
-                	<textarea type="text" class="form-control" name="inputDescription" id="inputDescription" placeholder="Descripci&oacute;n del evento" rows="4" cols="50">{{ event.description }}</textarea>
+                	<textarea type="text" class="form-control" name="inputDescription" id="inputDescription" placeholder="Descripci&oacute;n del evento" rows="4" cols="50" required/>{{ event.description }}</textarea>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputType" class="col-sm-3 control-label">Tipo</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="inputType" id="inputType" placeholder="Tipo de evento" value="{{ event.type }}">
+                    <input type="text" class="form-control" name="inputType" id="inputType" placeholder="Tipo de evento" value="{{ event.type }}" required/>
                 </div>
             </div>
 
              <div class="form-group">
                 <label for="inputDate" class="col-sm-3 control-label">Fecha</label>
                 <div class="col-sm-6">
-                    <input type="datetime-local" class="form-control" name="inputDate" id="inputDate" placeholder="fecha" value="{{ date }}" min="{{ actualDate }}">
+                    <input type="datetime-local" class="form-control" name="inputDate" id="inputDate" placeholder="fecha" value="{{ date }}" min="{{ actualDate }}" required/>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="inputLocation" class="col-sm-3 control-label">Localización</label>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control" name="inputLocation" id="inputLocation" placeholder="Localización" value="{{ event.location }}">
+                    <input type="text" class="form-control" name="inputLocation" id="inputLocation" placeholder="Localización" value="{{ event.location }}" required/>
                 </div>
             </div>
+			
+			<div class="form-group">
+                <label for="inputDescription" class="col-sm-3 control-label">Im&aacute;genes</label>
+                <div class="col-sm-6">
+                	<input type="text" class="form-control" name="inputImage" id="inputImage" placeholder="Clave para las im&aacute;genes del evento" value="{{ event.image }}" required/>
+                </div>
+            </div>			
 
             <div class="form-group text-center">
                 <button type="submit" value="submit" class="btn btn-warning">Actualizar</button>

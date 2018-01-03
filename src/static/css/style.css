@@ -1,0 +1,14 @@
+.warning_mesagge{
+    padding: 10px;
+    line-height: 35px;
+}
+
+.formBox{
+	color: RED;
+}
+
+#map {
+    margin: 30px;
+    height: 300px;
+    width: 100%;
+}

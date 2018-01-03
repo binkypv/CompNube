@@ -1,0 +1,158 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="row">
+	<div class="col-lg-12 text-center">
+		<h1>
+			Ver evento <span class="glyphicon glyphicon-calendar"
+				aria-hidden="true"></span>
+		</h1>
+	</div>
+</div>
+<br />
+<br />
+<div class="row">
+	<div class="col-md-2"></div>
+	<div class="col-md-8">
+		<form class="form-horizontal" role="form" action="" method="post">
+			<div class="form-group">
+				<label for="inputTitle" class="col-sm-3 control-label">T&iacute;tulo</label>
+
+				<div class="col-sm-6">
+					<input readonly="readonly" type="text" class="form-control"
+						name="inputTitle" id="inputTitle" placeholder="t&iacute;tulo"
+						value="{{ event.title }}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputAuthor" class="col-sm-3 control-label">Autor</label>
+
+				<div class="col-sm-6">
+					<input readonly="readonly" type="email" class="form-control"
+						name="inputAuthor" id="inputAuthor" placeholder="author"
+						value="{{ event.author }}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputText" class="col-sm-3 control-label">Descripci&oacute;n</label>
+
+				<div class="col-sm-6">
+					<textarea readonly="readonly" type="text" class="form-control" name="inputText" id="inputText" placeholder="Descripci&oacute;n del evento" rows="4" cols="50">{{ event.description }}</textarea>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputType" class="col-sm-3 control-label">Tipo</label>
+
+				<div class="col-sm-6">
+					<input readonly="readonly" type="text" class="form-control"
+						name="inputType" id="inputType" placeholder="tipo"
+						value="{{ event.type }}">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputDate" class="col-sm-3 control-label">Fecha</label>
+
+				<div class="col-sm-6">
+					<input readonly="readonly" type="datetime-local" class="form-control"
+						name="inputDate" id="inputDate" placeholder="fecha"
+						value="{{ date }}">
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-2"></div>
+</div>
+
+<br>
+<h3> Galería de imágenes </h3>
+<div class="row">
+	<div id="imgs" style="width:100%">
+		{% for image in images %}
+			<img src={{image}} height="200" width="200">
+		{% endfor %}
+	</div>
+</div>
+
+<div class="row">
+	<div id="map"></div>
+</div>
+
+<div class="row">
+	<div class="col-sm-5 col-sm-offset-3">
+		<div class="panel panel-default">
+			<div class="panel-heading">Deja un comentario!</div>
+			<div class="panel-body">
+				<form role="form" action="" method="post">
+
+					<div class="form-group">
+						<label for="inputCommentAuthor">Autor</label> <input type="text"
+							class="form-control" id="inputCommentAuthor"
+							name="inputCommentAuthor" placeholder="Tu nombre">
+					</div>
+
+					<div class="form-group">
+						<label for="comment">Comentario</label>
+						<textarea class="form-control" id="inputCommentText" name="inputCommentText" rows="3"
+							placeholder="Introduce tu comentario aqui..."></textarea>
+					</div>
+
+					<div class="form-group text-right">
+						<button type="submit" value="submit" class="btn btn-warning">Comentar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% if comments.count() > 0 %}
+	{% for comment in comments %}
+		<div class="row">
+			<div class="col-sm-5 col-sm-offset-3">
+				<div class="panel panel-default">
+					<div class="panel-heading"><strong>{{ comment.author }} - {{ comment.date.strftime('%d/%m/%Y') }}</strong></div>
+					<div class="panel-body">
+
+							<div class="form-group">
+								<label for="comment">Comment</label>
+								<textarea readonly="readonly" class="form-control" id="inputText" rows="3">{{ comment.text }}</textarea>
+							</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% endif %}
+
+<script>
+	function initMap() {
+		var location = '{{ event.location }}';
+		var geocoder = new google.maps.Geocoder();
+		
+		geocoder.geocode( { 'address': location }, function(results, status) {
+			if (status == 'OK') {
+				var map = new google.maps.Map(document.getElementById('map'), {
+					zoom: 10,
+					center: results[0].geometry.location,
+				});
+
+				var marker = new google.maps.Marker({
+					position: results[0].geometry.location,
+					map: map
+				});
+			} else {
+				alert('Geocode was not successful for the following reason: ' + status);
+			}
+		});
+	}
+
+	window.onload = function() {
+        initMap();
+    }
+</script>
+
+{% endblock content %}

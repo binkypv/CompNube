@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col-lg-12 text-center">
+        <h1>Nuevo evento <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></h1>
+    </div>
+</div>
+<br/>
+<br/>
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <form class="form-horizontal" role="form" action="" method="post">
+
+        	<div class="form-group">
+                <label for="inputAuthor" class="col-sm-3 control-label">E-mail</label>
+                <div class="col-sm-6">
+                    <input type="email" class="form-control" name="inputAuthor" id="inputAuthor" placeholder="Correo electrónico">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputTitle" class="col-sm-3 control-label">T&iacute;tulo</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="inputTitle" id="inputTitle" placeholder="T&iacute;tulo del evento">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputDescription" class="col-sm-3 control-label">Descripci&oacute;n</label>
+                <div class="col-sm-6">
+                	<textarea type="text" class="form-control" name="inputDescription" id="inputDescription" placeholder="Descripci&oacute;n del evento" rows="4" cols="50"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputType" class="col-sm-3 control-label">Tipo</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="inputType" id="inputType" placeholder="Tipo de evento">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputDate" class="col-sm-3 control-label">Fecha</label>
+                <div class="col-sm-6">
+                    <input type="datetime-local" class="form-control" name="inputDate" id="inputDate" placeholder="fecha" min="{{ actualDate }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="inputLocation" class="col-sm-3 control-label">Localización</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="inputLocation" id="inputLocation" placeholder="Localización">
+                </div>
+            </div>
+			
+            <div class="form-group">
+                <label for="inputDescription" class="col-sm-3 control-label">Im&aacute;genes</label>
+                <div class="col-sm-6">
+                	<textarea type="text" class="form-control" name="inputImage" id="inputImage" placeholder="Clave para las im&aacute;genes del evento" rows="4" cols="50"></textarea>
+                </div>
+            </div>			
+
+            <div class="form-group text-center">
+                <button type="submit" value="submit" class="btn btn-success">Crear</button>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+
+<script type="text/javascript">
+    window.onload = function() {
+        var input = document.getElementById('inputLocation');
+        var searchBox = new google.maps.places.SearchBox(input);
+    }
+</script>
+
+{% endblock content %}
+

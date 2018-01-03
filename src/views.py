@@ -2,6 +2,9 @@ from datetime import datetime
 import os
 import webapp2
 import jinja2
+import flickr_api
+from flickr_api.api import flickr
+flickr_api.set_keys(api_key = '9673710a8230be8c14e3715d23e309b2', api_secret = 'ec13fc4e0e2131c1')
 #import googlemaps
 
 from google.appengine.ext import db
@@ -40,6 +43,7 @@ class NewEvent(BaseHandler):
                        description = self.request.get('inputDescription'),
                        type = self.request.get('inputType'),
                        location = self.request.get('inputLocation'),
+					   image = self.request.get('inputImage'),
                        date = datetime.strptime(self.request.get('inputDate'), '%Y-%m-%dT%H:%M')
                        )
         event.put()
@@ -83,11 +87,15 @@ class DeleteEvent(BaseHandler):
 class ViewEvent(BaseHandler):
 
     def get(self, event_id):
-        comments = Comment.gql("WHERE event_id = :event_id", event_id=int(event_id))
-        iden = int(event_id)
-        event = db.get(db.Key.from_path('Events', iden))
-        date = event.date.strftime('%Y-%m-%dT%H:%M')
-        self.render_template('view.html', {'event': event, 'date': date ,'comments':comments})
+		comments = Comment.gql("WHERE event_id = :event_id", event_id=int(event_id))
+		iden = int(event_id)
+		event = db.get(db.Key.from_path('Events', iden))
+		date = event.date.strftime('%Y-%m-%dT%H:%M')
+		images = []
+		piclist = flickr_api.Photo.search(text=event.image,per_page=5)
+		for pic in piclist:
+			images.append("https://farm"+str(pic.farm)+".staticflickr.com/"+str(pic.server)+"/"+str(pic.id)+"_"+pic.secret+".jpg")
+		self.render_template('view.html', {'event': event, 'date': date ,'comments':comments, 'images': images})
 
     def post(self, event_id):
         comment = Comment(text=self.request.get('inputCommentText'),
@@ -96,4 +104,3 @@ class ViewEvent(BaseHandler):
                           date=datetime.now())
         comment.put()
         return webapp2.redirect('/')
-

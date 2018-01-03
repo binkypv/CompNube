@@ -8,7 +8,7 @@ class Events(db.Model):
     description = db.TextProperty()
     type = db.StringProperty()
     location = db.StringProperty()
-    #image = images.Image()
+    image = db.StringProperty()
     date = db.DateTimeProperty(auto_now_add = True)
     
 class Comment(db.Model):
